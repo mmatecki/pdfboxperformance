@@ -7,15 +7,21 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceCMYK;
+import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
 public class PDFBoxPerformance {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
+        System.setProperty("sun.java2d.cmm", "sun.java2d.cmm.kcms.KcmsServiceProvider");
         new PDFBoxPerformance().renderPages();
     }
 
-    void renderPages() {
+    void renderPages() throws IOException {
+        PDType1Font f = PDType1Font.COURIER;
+        PDDeviceCMYK.INSTANCE.toRGB(new float[]{0,0,0,0});
+        PDDeviceRGB.INSTANCE.toRGB(new float[]{0,0,0});
         int dpi = 600;
 
         try (PDDocument document = getPDFDocument("/test-pdf-18.pdf")) {
